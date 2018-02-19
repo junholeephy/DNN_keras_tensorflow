@@ -7,6 +7,6 @@ Preparation:
 4. keras
 5. root_numpy
 
-	git remote add upstream https://github.com/StudyGroupPKU/DNN_keras_tensorflow.git
+	git remote add upstream https://github.com/junholeephy/DNN_keras_tensorflow.git
 
 
