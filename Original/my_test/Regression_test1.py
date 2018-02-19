@@ -1,3 +1,4 @@
+####  vistualize model 
 #!/usr/bin/env python
 import numpy as np
 import pandas as pd
@@ -23,6 +24,8 @@ from keras.regularizers import l1, l2
 from keras import initializers
 from keras import layers
 from keras.optimizers import SGD, Adam
+from keras.utils import plot_model
+from keras.utils.vis_utils import plot_model
 
 def Camel1D(x,a):
 	return math.log(0.5/(a*math.sqrt(math.pi)) * (math.exp(-(x-1./3)*(x-1/3.)/(a*a)) + math.exp(-(x-2./3)*(x-2/3.)/(a*a))))
@@ -102,12 +105,33 @@ modelRegress.add(Dense(1, kernel_initializer='truncated_normal',  activation='li
 modelRegress.compile(loss='mean_squared_error', optimizer='adam')
 modelRegress.summary()
 modelRegress.fit(data_train, target_train, validation_data=(data_test, target_test), epochs=20, batch_size=500)
-#modelRegress.save("model.h5")
+modelRegress.save("model.h5")
 #score = model.evaluate(data_test, target_test, batch_size=50)
 predict_train = modelRegress.predict(data_train, batch_size=1)
 predict_test = modelRegress.predict(data_test, batch_size=1) 
+plot_model(modelRegress, to_file='model_test1.eps', show_shapes=True, show_layer_names=True)
 
+layer_0 = modelRegress.layers[0]
+layer_1 = modelRegress.layers[1]
+#layer_2 = modelRegress.layers[2]
+#layer_3 = modelRegress.layers[3]
+#layer_4 = modelRegress.layers[4]
+#layer_5 = modelRegress.layers[5]
 
+weight_0 = layer_0.get_weights()
+weight_1 = layer_1.get_weights()
+weight_0_m = weight_0[0]          # multiplying
+weight_0_p = weight_0[1]          # adding
+weight_1_m = weight_1[0]
+weight_1_p = weight_1[1]
+print(type(weight_0))
+print(type(weight_1))
+print(type(weight_0_m))
+print(type(weight_0_p))
+print(type(weight_1_m))
+print(type(weight_1_p))
+#print(weight_0)
+#print(weight_1)
 
 f = TFile("generative_tree_1D.root", "recreate")
 hist_target_train = TH1F('TrainData','TrainData',100,0,1)
