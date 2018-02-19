@@ -26,71 +26,26 @@ from keras import layers
 from keras.optimizers import SGD, Adam
 from keras.utils import plot_model
 from keras.utils.vis_utils import plot_model
-
-def Camel1D(x,a):
-	return math.log(0.5/(a*math.sqrt(math.pi)) * (math.exp(-(x-1./3)*(x-1/3.)/(a*a)) + math.exp(-(x-2./3)*(x-2/3.)/(a*a))))
-	
-def CamelND(x,a=0.1,n=1):
-	sum1 = 0
-	sum2 = 0
-	denom = 1
-	for i in range(n):
-		sum1 += -(x[i]-1./3)*(x[i]-1/3.)/(a*a)
-		sum2 += -(x[i]-2./3)*(x[i]-2/3.)/(a*a)
-		denom *= (a*math.sqrt(math.pi))
-	sum1 = math.exp(sum1)
-	sum2 = math.exp(sum2)
-	sum = math.log((0.5/denom) * (sum1+sum2))
-	return sum
-	
-def tfCamelND(x,a=0.1,n=1):
-	sum1 = 0
-	sum2 = 0
-	denom = 1
-	for i in range(n):
-		sum1 += -(x[i]-1./3)*(x[i]-1/3.)/(a*a)
-		sum2 += -(x[i]-2./3)*(x[i]-2/3.)/(a*a)
-		denom *= (a*math.sqrt(math.pi))
-	sum1 = K.exp(sum1)
-	sum2 = K.exp(sum2)
-	sum = (0.5/denom) * (sum1+sum2)
-	#print(sum)
-	return sum
-
-def sample_data(n_samples=1000, maxval=1, n=1):
-	vectors = []
-	for i in range(n_samples):
-		#subvector = []
-		#for j in range(0,n):
-		val = np.random.random(n) *  maxval;
-		#	subvector.append(val)
-		#print (val)
-		vectors.append(val)
-	return np.array(vectors)
-	
-	
-	
-
+####=================================================####
+from A_sample_data import sample_data
+from A_Camel import Camel1D
+from A_Camel import CamelND
+from A_Camel import tfCamelND
+####=================================================####
 ndim=1
-nEvents=50000
-nEventsBatch=2000
-#print (nEvents//nEventsBatch)
+nEvent=5000     #test
+nEvents=50000    #train
 	
 data_train = sample_data(nEvents,1,ndim)
-data_test = sample_data(nEvents,1,ndim)
-data_train_batch = data_train
-#print (data_train)
+data_test = sample_data(nEvent,1,ndim)
 
 vectors = []
 for x in data_train:
-	#print (x)
-	#print (x, Camel1D(x,0.1)) 
 	vectors.append(CamelND(x,0.1,ndim))
 target_train = np.array(vectors)
 
 vectors = []
 for x in data_test:
-	#print (x, Camel1D(x,0.1)) 
 	vectors.append(CamelND(x,0.1,ndim))
 target_test = np.array(vectors)
 
@@ -98,13 +53,13 @@ target_test = np.array(vectors)
 modelRegress = Sequential()
 modelRegress.add(Dense(64, kernel_initializer='truncated_normal', activation='relu', W_regularizer=l2(1e-5), input_dim=ndim))
 modelRegress.add(Dense(64, kernel_initializer='truncated_normal', activation='relu', W_regularizer=l2(1e-5)))
-#modelRegress.add(Dense(64, kernel_initializer='truncated_normal', activation='relu', W_regularizer=l2(1e-5)))
-#modelRegress.add(Dense(64, kernel_initializer='truncated_normal', activation='relu', W_regularizer=l2(1e-5)))
-#modelRegress.add(Dense(64, kernel_initializer='truncated_normal', activation='relu', W_regularizer=l2(1e-5)))
+modelRegress.add(Dense(64, kernel_initializer='truncated_normal', activation='relu', W_regularizer=l2(1e-5)))
+modelRegress.add(Dense(64, kernel_initializer='truncated_normal', activation='relu', W_regularizer=l2(1e-5)))
+modelRegress.add(Dense(64, kernel_initializer='truncated_normal', activation='relu', W_regularizer=l2(1e-5)))
 modelRegress.add(Dense(1, kernel_initializer='truncated_normal',  activation='linear')) #sigmoid
 modelRegress.compile(loss='mean_squared_error', optimizer='adam')
 modelRegress.summary()
-modelRegress.fit(data_train, target_train, validation_data=(data_test, target_test), epochs=20, batch_size=500)
+modelRegress.fit(data_train, target_train, validation_data=(data_test, target_test), epochs=200, batch_size=500)
 modelRegress.save("model.h5")
 #score = model.evaluate(data_test, target_test, batch_size=50)
 predict_train = modelRegress.predict(data_train, batch_size=1)
