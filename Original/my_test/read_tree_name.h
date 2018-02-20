@@ -16,7 +16,7 @@ class read_tree_name
 
 read_tree_name::read_tree_name()
 {
-//    cout<<"reat_tree_name invoked"<<endl;
+//    cout<<"!!!read tree name invoked!!!"<<endl;
 }
 
 vector<string> read_tree_name::NameOfTree(string *str)

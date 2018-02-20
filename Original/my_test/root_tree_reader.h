@@ -37,7 +37,7 @@ vector<TTree*> root_tree_reader::Read_tree(string *str)
     {
         TTree *t = new TTree();
 	    string stemp2 = VName.at(i1);
-        cout<<"stemp2:"<<stemp2<<endl;
+//        cout<<"stemp2:"<<stemp2<<endl;
         const char* ctemp2 = stemp2.data();
         t = (TTree*)file->Get(ctemp2);
         Vtree.push_back(t);
