@@ -47,7 +47,7 @@ void old_self_Plot_mem(){
   gROOT->ProcessLine(".x setTDRStyle.C");
 
 //  TFile* f = new TFile("self_generative_tree_mem.root","READ");
-  TFile* f = new TFile("generative_tree_1D.root","READ");
+  TFile* f = new TFile("Camel.root","READ");
 
   Double_t norm = 1.0;
   double scale = 1.0;

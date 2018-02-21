@@ -6,7 +6,7 @@ import pandas as pd
 import tensorflow as tf
 import keras.backend as K
 
-from ROOT import TH1F, TFile
+from ROOT import TH1F, TFile, TTree
 from root_numpy import fill_hist
 from root_numpy import root2array, tree2array, array2root
 from root_numpy import testdata
@@ -33,7 +33,7 @@ from A_Camel import CamelND
 from A_Camel import tfCamelND
 ####=================================================####
 ndim=1
-nEvent=5000     #test
+nEvent=10000     #test
 nEvents=50000    #train
 	
 data_train = sample_data(nEvents,1,ndim)
@@ -88,17 +88,44 @@ print(type(weight_1_p))
 #print(weight_0)
 #print(weight_1)
 
-f = TFile("generative_tree_1D.root", "recreate")
+f = TFile("Camel.root", "recreate")
 hist_target_train = TH1F('TrainData','TrainData',100,0,1)
 hist_target_test = TH1F('TestData','TestData',100,0,1)
 hist_output_train = TH1F('OutputDataTrain','OutputDataTrain',100,0,1)
 hist_output_test = TH1F('OutputDataTest','OutputDataTest',100,0,1)
 
-#Plots: projection selon l'axe X (premiere variable)
 fill_hist(hist_target_train, data_train[:,0], target_train)
 fill_hist(hist_target_test, data_test[:,0], target_test)
 fill_hist(hist_output_train, data_train[:,0], predict_train[:,0])
 fill_hist(hist_output_test, data_test[:,0], predict_test[:,0])
+
+
+tree_train = TTree('tree_train','tree_train')
+Ttrain = np.zeros(1, dtype=float)
+Otrain = np.zeros(1, dtype=float)
+Dtrain = np.zeros(1, dtype=float)
+tree_train.Branch('target_train',Ttrain,'target_train/D')
+tree_train.Branch('output_train',Otrain,'output_train/D')
+tree_train.Branch('data_train',Dtrain,'data_train/D')
+for ij1 in range(nEvents):
+    Ttrain[0] = target_train[ij1]
+    Otrain[0] = predict_train[ij1]
+    Dtrain[0] = data_train[ij1,0]
+    tree_train.Fill()
+
+tree_test = TTree('tree_test','tree_test')
+Ttest = np.zeros(1, dtype=float)
+Otest = np.zeros(1, dtype=float)
+Dtest = np.zeros(1, dtype=float)
+tree_test.Branch('target_test',Ttest,'target_test/D')
+tree_test.Branch('output_test',Otest,'output_test/D')
+tree_test.Branch('data_test',Dtest,'data_test/D')
+for ij2 in range(nEvent):
+    Ttest[0] = target_test[ij2]
+    Otest[0] = predict_test[ij2]
+    Dtest[0] = data_test[ij2,0]
+    tree_test.Fill()
+
 
 f.Write()
 f.Close()

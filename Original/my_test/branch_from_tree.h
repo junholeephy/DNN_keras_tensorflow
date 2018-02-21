@@ -1,3 +1,6 @@
+#ifndef _BRANCH_FROM_TREE_H_
+#define _BRANCH_FROM_TREE_H_
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <iostream>
@@ -15,8 +18,7 @@ class branch_from_tree
         branch_from_tree();
         vector<TBranch*> vbranch;
         vector<TBranch*> Read_branch(TTree *tree);
-        TBranch* target = new TBranch();
-        TBranch* output = new TBranch();
+        TBranch* br = new TBranch();
         void Reset();
 };
 
@@ -36,9 +38,10 @@ vector<TBranch*> branch_from_tree::Read_branch(TTree *tree)
     for(int i1=0; i1<VName.size(); i1++)
     {
         cout<<"branch name : "<<VName.at(i1)<<endl;
+        const char* temp = VName.at(i1).data();
+        br = (TBranch*)tree->GetBranch(temp);
+        vbranch.push_back(br);
     }    
-
-
     return vbranch;
     vbranch.clear();
 
@@ -49,4 +52,6 @@ void branch_from_tree::Reset()
     vbranch.clear();
     
 }
+
+#endif
 

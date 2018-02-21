@@ -42,11 +42,12 @@ TH1D* GetHistoWeight(TTree* t, string variable, int nbins, double xmin, double x
 }
 
 
-void Plot(){
+void old_Plot(){
 
   gROOT->ProcessLine(".x setTDRStyle.C");
 
-  TFile* f = new TFile("generative_tree_1D.root","READ");
+//  TFile* f = new TFile("generative_tree_1D.root","READ");
+  TFile* f = new TFile("Camel.root","READ");
 
   TH1F* HistoOutput_Train = (TH1F*)f->Get("OutputDataTrain");
   TH1F* HistoOutput_Test = (TH1F*)f->Get("OutputDataTest");

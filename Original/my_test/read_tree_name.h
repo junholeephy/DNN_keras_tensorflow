@@ -1,3 +1,6 @@
+#ifndef _READ_TREE_NAME_H_
+#define _READ_TREE_NAME_H_
+
 #include "TROOT.h"
 #include "TKey.h"
 #include "TFile.h"
@@ -41,4 +44,4 @@ vector<string> read_tree_name::NameOfTree(string *str)
 }
 
 
-
+#endif

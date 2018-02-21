@@ -1,3 +1,6 @@
+#ifndef _BRANCH_TO_HISTO_H_
+#define _BRANCH_TO_HISTO_H_
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <iostream>
@@ -20,7 +23,7 @@ branch_to_histo::branch_to_histo()
 {
 }
 
-
+#endif
 
 
 

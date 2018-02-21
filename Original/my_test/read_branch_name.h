@@ -1,3 +1,6 @@
+#ifndef _READ_BRANCH_NAME_H_
+#define _READ_BRANCH_NAME_H_
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <iostream>
@@ -35,5 +38,5 @@ vector<string> read_branch_name::NameOfBranch(TTree *tree)
     Vstr.clear();
 }
 
-
+#endif
 

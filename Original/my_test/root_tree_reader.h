@@ -1,3 +1,6 @@
+#ifndef _ROOT_TREE_READER_H_
+#define _ROOT_TREE_READER_H_
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <iostream>
@@ -14,9 +17,9 @@ class root_tree_reader
         root_tree_reader(string *str);
         vector<TTree*> Vtree;
         vector<TTree*> Read_tree(string *str);
-//        TTree *t1 =new TTree();
-//        TTree *t2 =new TTree();
-//        TTree *t = new TTree();
+
+//        vector<TH1F*> MakeHistos(string *str, int NBIN = 100, double LOW = -1, double HIGH = 1);
+//        vector<TH1F*> vhisto;
 };
 
 root_tree_reader::root_tree_reader(string *str)
@@ -46,7 +49,16 @@ vector<TTree*> root_tree_reader::Read_tree(string *str)
     return Vtree;
 	Vtree.clear();
 }
+/*
+vector<TH1F*> root_tree_reader::MakeHistos(string *str, int NBIN = 100, double LOW = -1, double HIGH = 1)
+{
+    TFile *file = new TFile(str->data(),"READ");
+    read_tree_name *Name = new read_tree_name();
+    
 
 
+    return vhisto;
+}
+*/
 
-
+#endif
